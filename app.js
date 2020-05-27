@@ -29,8 +29,8 @@ app.use(methodOverride('_method'))
 //mongoose
 mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true, useUnifiedTopology: true });
 const Review = mongoose.model('Review', {
-    title: String,
-    movieTitle: String,
+    title: { type: String, required: true },
+    movieTitle: { type: String, required: true },
     description: String,
     rating: Number
 });
@@ -94,7 +94,17 @@ app.post('/reviews', (req, res) => {
             console.log(err);
         })
 })
-
+//DELETE
+app.delete('/reviews/:id', (req, res) => {
+    console.log("DELETE review");
+    Review.findByIdAndDelete(req.params.id)
+        .then((review) => {
+            res.redirect('/')
+        })
+        .catch(() => {
+            console.log(err)
+        })
+})
 
 app.listen("3000", () => {
     console.log("App listening on port 3000!'")
