@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const Handlebars = require('handlebars')
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
+const methodOverride = require('method-override')
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main', handlebars: allowInsecurePrototypeAccess(Handlebars) }))
 app.set('view engine', 'handlebars')
@@ -12,6 +13,8 @@ app.set('view engine', 'handlebars')
 
 // The following line must appear AFTER const app = express() and before your routes!
 app.use(bodyParser.urlencoded({ extended: true }));
+// override with POST having ?_method=DELETE or ?_method=PUT
+app.use(methodOverride('_method'))
 
 
 // app.get('/', (req, res) => {
@@ -45,19 +48,41 @@ app.get('/', (req, res) => {
         })
 })
 
+// NEW
 app.get("/reviews/new", (req, res) => {
-    res.render('reviews-new', {})
+    res.render('reviews-new', { title: "New Review" })
 });
 
 //show
 app.get('/reviews/:id', (req, res) => {
-    Review.findById(req.params.id).then((review) => {
-        console.log(req.params);
-        res.render('reviews-show', { review: review })
-    }).catch((err) => {
-        console.log(err.message);
-    })
+    Review.findById(req.params.id)
+        .then((review) => {
+            console.log(req.params);
+            res.render('reviews-show', { review: review })
+        }).catch((err) => {
+            console.log(err.message);
+        })
 })
+
+//edit
+app.get('/reviews/:id/edit', (req, res) => {
+    Review.findById(req.params.id, (err, review) => {
+        console.log(req.params);
+        res.render('reviews-edit', { review: review, title: "Edit Review" })
+    })
+});
+
+// UPDATE
+app.put('/reviews/:id', (req, res) => {
+    Review.findByIdAndUpdate(req.params.id, req.body)
+        .then(review => {
+            res.redirect(`/reviews/${review._id}`)
+        })
+        .catch(err => {
+            console.log(err.message)
+        })
+})
+
 
 // CREATE
 app.post('/reviews', (req, res) => {

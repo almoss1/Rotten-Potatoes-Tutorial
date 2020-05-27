@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Reviews Form</title>
+</head>
+
+<body>
+    <!-- views/partials/reviews-form.handlebars -->
+
+    <fieldset>
+        <legend>{{title}}</legend>
+        <!-- TITLE -->
+        <p>
+            <label for="review-title">Title</label><br>
+            <input id="review-title" type="text" name="title" value="{{review.title}}" />
+        </p>
+
+        <!-- MOVIE TITLE -->
+        <p>
+            <label for="movie-title">Movie Title</label><br>
+            <input id="movie-title" type="text" name="movieTitle" value="{{review.movieTitle}}" />
+        </p>
+
+        <!-- DESCRIPTION -->
+        <p>
+            <label for="review-description">Description</label><br>
+            <textarea id="review-description" name="description" rows="10" />{{review.description}}</textarea>
+        </p>
+        <!-- Rating -->
+        <div class="form-group">
+            <label for="rating">Rating</label><br>
+            <select single class="form-control" name="rating" id="rating">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+    </fieldset>
+</body>
+
+</html>

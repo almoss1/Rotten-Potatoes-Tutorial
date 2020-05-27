@@ -9,20 +9,17 @@
 </head>
 
 <body>
-    <!-- views/reviews-new.handlebars -->
-
-    <form method="POST" action="/reviews">
-        {{> reviews-form}}
-
-        <!-- BUTTON -->
-        <p>
-            <button type="submit">Save Review</button>
-        </p>
-
-    </form>
-
-
 
 </body>
+
+<!-- views/reviews-edit.handlebars -->
+
+<form method="POST" action="/reviews/{{review._id}}?_method=PUT">
+    {{> reviews-form}}
+    <!-- BUTTON -->
+    <p>
+        <button type="submit">Save Review</button>
+    </p>
+</form>
 
 </html>
