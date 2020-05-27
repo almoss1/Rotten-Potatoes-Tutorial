@@ -2,10 +2,16 @@ const express = require("express");
 const app = express();
 const exphbs = require('express-handlebars');
 const mongoose = require("mongoose");
+const bodyParser = require('body-parser');
 
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
+
+
+// The following line must appear AFTER const app = express() and before your routes!
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // app.get('/', (req, res) => {
 //     res.render('home', { msg: 'Handlebars are Cool!' });
@@ -20,7 +26,8 @@ app.set('view engine', 'handlebars')
 mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true });
 const Review = mongoose.model('Review', {
     title: String,
-    movieTitle: String
+    movieTitle: String,
+    description: String
 });
 
 
@@ -35,6 +42,23 @@ app.get('/', (req, res) => {
             console.log(err);
         })
 })
+
+app.get("/reviews/new", (req, res) => {
+    res.render('reviews-new', {})
+});
+
+
+// CREATE
+app.post('/reviews', (req, res) => {
+    Review.create(req.body).then((review) => {
+        console.log(review);
+        res.redirect('/');
+    })
+        .catch((err) => {
+            console.log(err);
+        })
+})
+
 
 app.listen("3000", () => {
     console.log("App listening on port 3000!'")
