@@ -31,7 +31,7 @@ app.use(methodOverride('_method'))
 mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const reviews = require('./controllers/reviews')(app);
-
+const comments = require('./controllers/comments')(app);
 
 // // INDEX
 // app.get('/', (req, res) => {

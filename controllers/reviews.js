@@ -1,4 +1,5 @@
 const Review = require('../models/review');
+const Comment = require('../models/comment');
 
 module.exports = function (app) {
 
@@ -20,10 +21,17 @@ module.exports = function (app) {
 
     //show
     app.get('/reviews/:id', (req, res) => {
+        // find review
         Review.findById(req.params.id)
             .then((review) => {
-                console.log(req.params);
-                res.render('reviews-show', { review: review })
+                // fetch its comments
+                Comment.find({ reviewId: req.params.id })
+                    .then((comment) => {
+                        // respond with the template with both values
+                        console.log(req.params);
+                        res.render('reviews-show', { review: review, comment: comment })
+                    })
+
             }).catch((err) => {
                 console.log(err.message);
             })

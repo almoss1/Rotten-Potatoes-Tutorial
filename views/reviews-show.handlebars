@@ -29,6 +29,10 @@
             <!-- Comment form -->
             {{> comment-form}}
 
+            {{!-- Show comments --}}
+            {{#each comment}}
+            {{> comment}}
+            {{/each}}
         </div>
     </div>
 </body>
