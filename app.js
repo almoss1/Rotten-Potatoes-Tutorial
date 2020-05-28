@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const Handlebars = require('handlebars')
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
 const methodOverride = require('method-override')
-const reviews = require('./controllers/reviews')(app);
+
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main', handlebars: allowInsecurePrototypeAccess(Handlebars) }))
 app.set('view engine', 'handlebars')
@@ -30,7 +30,7 @@ app.use(methodOverride('_method'))
 //mongoose
 mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true, useUnifiedTopology: true });
 
-
+const reviews = require('./controllers/reviews')(app);
 
 
 // // INDEX
